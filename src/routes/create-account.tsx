@@ -1,5 +1,8 @@
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 import styled from "styled-components";
+import { auth } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
     height: 100%;
@@ -16,15 +19,18 @@ const Form = styled.form`
     gap: 10px;
     width: 100%;
 `;
+
 const Title = styled.h1`
     font-size: 42px;
 `;
+
 const Input = styled.input`
     padding: 10px 20px;
     border-radius: 50px;
     border: none;
     width: 100%;
     font-size: 16px;
+
     &[type="submit"] {
         cursor: pointer;
         &:hover {
@@ -38,6 +44,7 @@ const Error = styled.span`
 `;
 
 export default function CreateAccount() {
+    const navigate = useNavigate();
     const [isLoading, setLoading] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -51,20 +58,29 @@ export default function CreateAccount() {
 
         if (name === "name") {
             setName(value);
-        } else if (email === "email") {
+        } else if (name === "email") {
             setEmail(value);
-        } else if (password === "password") {
+        } else if (name === "password") {
             setPassword(value);
         }
     };
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (isLoading || name === "" || email === "" || password === "") return;
         try {
-            //
+            setLoading(true);
+            const credentials = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            console.log(credentials.user);
+            await updateProfile(credentials.user, { displayName: name });
+            navigate("/");
         } catch (e) {
-            //
+            // setError
         } finally {
             setLoading(false);
         }
@@ -72,7 +88,7 @@ export default function CreateAccount() {
     };
     return (
         <Wrapper>
-            <Title>Log into </Title>
+            <Title>Join X</Title>
             <Form onSubmit={onSubmit}>
                 <Input
                     onChange={onChange}
@@ -99,7 +115,7 @@ export default function CreateAccount() {
                     required
                 />
                 <Input
-                    name="submit"
+                    type="submit"
                     value={isLoading ? "Loading..." : "Create Account"}
                 />
             </Form>
