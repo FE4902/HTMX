@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
     width: 420px;
     padding: 50px 0px;
 `;
+
 export const Form = styled.form`
     display: flex;
     flex-direction: column;
@@ -46,5 +47,14 @@ export const Switcher = styled.span`
 
     a {
         color: #1d9bf0;
+    }
+
+    button {
+        background-color: transparent;
+        color: #1d9bf0;
+        font-family: inherit;
+        font-size: 16px;
+        text-decoration: underline;
+        border: none;
     }
 `;
