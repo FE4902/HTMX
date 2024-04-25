@@ -7,7 +7,7 @@ const Wrapper = styled.div`
     grid-template-columns: 1fr 4fr;
     max-width: 860px;
     width: 100%;
-    height: 100px;
+    height: 100%;
     padding: 50px 0;
     gap: 20px;
 `;
@@ -43,7 +43,7 @@ const MenuItem = styled.div`
     }
 `;
 
-export default function layout() {
+export default function Layout() {
     const navigate = useNavigate();
     const onLogOut = async () => {
         const ok = confirm("Are you sure you want to log out?");
