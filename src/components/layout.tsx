@@ -71,7 +71,7 @@ export default function Layout() {
                         </svg>
                     </MenuItem>
                 </Link>
-                <Link to="/user">
+                <Link to="/profile">
                     <MenuItem>
                         <svg
                             fill="currentColor"
